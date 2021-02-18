@@ -44,16 +44,19 @@ top: 200px;
 
 
       <input id="myInput">
-      <button id="myBtn" onclick="javascript:alert('Whats up')">Launch</button>
+      <button id="myBtn">Launch</button>
 
       <script>
-          var input = document.getElementById("myInput");
-          input.addEventListener("keyup", function(event) {
-          if (event.keyCode === 13) {
-          event.preventDefault();
-          document.getElementById("myBtn").click();
+
+        var input = document.getElementById("myInput");
+        input.addEventListener("change", nextPage);
+        var but = document.getElementById("myBtn");
+        but.addEventListener("click", nextPage);
+
+        function nextPage(event){
+            var n = input.value;
+            window.location.href = "./Space_Game.html?name=" + n;
         }
-        });
       </script>
 
   </body>

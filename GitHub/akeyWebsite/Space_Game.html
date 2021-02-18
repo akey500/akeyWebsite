@@ -26,6 +26,12 @@
     canvas_width = 1430;
     canvas_height = 785;
 
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const username = urlParams.get('name');
+    alert("Welcome " + username);
+
     cvs = document.createElement("CANVAS");
     cvs.height = canvas_height;
     cvs.width = canvas_width;
