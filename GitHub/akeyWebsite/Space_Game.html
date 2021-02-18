@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    body {
+      margin: 0px;
+      padding: 0px;
+
+    background-image: url('SPACE.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    }
+
+    </style>
+  </head>
+
+  <body>
+    <div id="canvasSpot"></div>
+
+  </body>
+
+  <script type="text/javascript">
+    canvas_width = 1430;
+    canvas_height = 785;
+
+    cvs = document.createElement("CANVAS");
+    cvs.height = canvas_height;
+    cvs.width = canvas_width;
+
+    document.getElementById("canvasSpot").append(cvs);
+
+    elem = document.getElementById("canvasSpot");
+    elem.append(cvs);
+    ctx = cvs.getContext('2d');
+
+    x2 = 715;
+    y2 = 732;
+
+    //import rocket picture
+    img= new Image();
+    img.src= "rocket.png";
+
+    speed = 7
+
+
+//draw circles
+class asteroid {
+  constructor(){
+    this.x = Math.floor(Math.random() * 1430);
+    this.y = 0;
+  }
+
+
+  move(){
+    this.y = this.y + speed;
+
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, 20, 0, 2 * Math.PI, false);
+    ctx.fillStyle = 'grey';
+    ctx.fill();
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = 'black';
+    ctx.stroke();
+  }
+}
+
+// creating asteroids
+asteroids= [];
+for (let i=0; i<3; i++){
+  asteroids.push(new asteroid());
+
+}
+
+// dropings asteroids
+function addAsteroid(){
+  asteroids.push(new asteroid());
+}
+
+// how often asteroids drop down
+setInterval(addAsteroid, 1000);
+setInterval(addAsteroid, 1100);
+setInterval(addAsteroid, 1200);
+setInterval(addAsteroid, 1300);
+setInterval(addAsteroid, 1400);
+setInterval(addAsteroid, 1500);
+setInterval(addAsteroid, 1600);
+setInterval(addAsteroid, 1700);
+setInterval(addAsteroid, 1800);
+
+
+// find distance between rocket and asteroids
+   function distance(x1, y1){
+   d = Math.sqrt( ((x2-x1)**2) + ((y2-y1)**2) );
+   return d;
+ }
+
+function dead(x1, y1){
+    if (distance(x1, y1) <= 20){
+      isdead = true;
+    }
+    return distance (x1, y1);
+}
+
+isdead = false;
+
+//call animate function
+window.requestAnimationFrame(animate);
+
+    //Animation function
+    function animate(){
+      //clear canvas
+      ctx.clearRect(0,0, canvas_width, canvas_height);
+
+      for (let i=0; i<asteroids.length; i++){
+        asteroids[i].move();
+        d = dead(asteroids[i].x, asteroids[i].y)
+      }
+
+      ctx.drawImage(img, x2, y2, 70, 50);
+
+      if (isdead !== true){
+        //Re-run function
+        window.requestAnimationFrame(animate);
+      }
+      else {
+        ctx.font = "70px Courier New";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.fillText("you died.", 715, 392.5);
+      }
+    }
+
+    //keyboard input
+    function moveBox(e){
+      if (e.key === "ArrowLeft"){
+        x2 = x2 - 50;
+      }
+      if (e.key === "ArrowRight"){
+        x2 = x2 + 50;
+      }
+    }
+
+    document.addEventListener('keydown', moveBox);
+
+
+
+  </script>
+
+
+
+</html>
