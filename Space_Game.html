@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -24,14 +23,17 @@
   </body>
 
   <script type="text/javascript">
-    canvas_width = 1430;
-    canvas_height = 785;
 
+    //canvas_width = 1430;
+    //canvas_height = 785;
+
+  canvas_width = window.innerWidth;
+ canvas_height = window.innerHeight;
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const username = urlParams.get('name');
-    alert("Welcome " + username);
+
 
     cvs = document.createElement("CANVAS");
     cvs.height = canvas_height;
@@ -50,7 +52,7 @@
     img= new Image();
     img.src= "rocket.png";
 
-    speed = 11
+    speed = 10
 
 
 //draw circles
@@ -61,11 +63,11 @@ class asteroid {
   }
 
 
-  move(){
+  move(speed){
     this.y = this.y + speed;
 
     ctx.beginPath();
-    ctx.arc(this.x, this.y, 20, 0, 2 * Math.PI, false);
+    ctx.arc(this.x, this.y, 25, 0, 2 * Math.PI, false);
     ctx.fillStyle = 'grey';
     ctx.fill();
     ctx.lineWidth = 5;
@@ -99,19 +101,44 @@ setInterval(addAsteroid, 1800);
 
 
 // find distance between rocket and asteroids
+// x1/y1= rocket x2/y2= asteroids
    function distance(x1, y1){
-   d = Math.sqrt( ((x2-x1)**2) + ((y2-y1)**2) );
+   d = Math.sqrt( ((x2+27.5-x1+12.5)**2) + ((y2-y1+12.5)**2) );
    return d;
  }
 
 function dead(x1, y1){
-    if (distance(x1, y1) <= 20){
+    if (distance(x1, y1) <= 27){
       isdead = true;
     }
     return distance (x1, y1);
 }
 
+//sending data
+function sendData(username, score){
+  xhttp = new XMLHttpRequest();
+  let url = "saveData.php?username="+username + "&score="+score;
+
+  console.log(url);
+
+  //NEW
+  xhttp.onreadystatechange = function() {
+      if (xhttp.readyState == XMLHttpRequest.DONE) {
+          console.log(xhttp.responseText);
+      }
+  }
+  //END NEW
+
+  xhttp.open("GET", url, true);
+  xhttp.send();
+
+}
+
+
+
 isdead = false;
+
+
 
 //call animate function
 window.requestAnimationFrame(animate);
@@ -121,22 +148,45 @@ window.requestAnimationFrame(animate);
       //clear canvas
       ctx.clearRect(0,0, canvas_width, canvas_height);
 
+      document.addEventListener('keydown', moveBox);
+
+      if (asteroids.length>100) {
+      speed = 10 + .1*(asteroids.length-100);
+    }
+
+        ctx.fillText(speed, 0.5 * canvas_width, 75);
+
       for (let i=0; i<asteroids.length; i++){
-        asteroids[i].move();
+        asteroids[i].move(speed);
         d = dead(asteroids[i].x, asteroids[i].y)
       }
 
-      ctx.drawImage(img, x2, y2, 70, 50);
+      score = asteroids.length;
+        ctx.font = "50px Courier New";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.fillText(score, 0.95 * canvas_width, 75);
+
+        ctx.fillText(username, 0.1 * canvas_width, 75);
+
+
+
+
+
+
+      ctx.drawImage(img, x2, y2, 75, 55);
 
       if (isdead !== true){
         //Re-run function
         window.requestAnimationFrame(animate);
       }
       else {
+        sendData(username, score);
+
         ctx.font = "70px Courier New";
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
-        ctx.fillText("you died.", 715, 392.5);
+        ctx.fillText("you died.", 0.5 * canvas_width, 392.5);
       }
     }
 
@@ -150,7 +200,7 @@ window.requestAnimationFrame(animate);
       }
     }
 
-    document.addEventListener('keydown', moveBox);
+
 
 
 
