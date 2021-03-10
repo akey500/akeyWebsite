@@ -28,7 +28,7 @@
 
 score = 0;
 
-  canvas_width = window.innerWidth;
+ canvas_width = window.innerWidth;
  canvas_height = window.innerHeight;
 
     const queryString = window.location.search;
@@ -207,10 +207,10 @@ window.requestAnimationFrame(animate);
         window.requestAnimationFrame(animate);
       }
       else {
-          getData(username, score);
+        getData(username, score);
 
-
-
+        img= new Image();
+        img.src= "explosion.gif";
 
         ctx.font = "55px Courier New";
         ctx.fillStyle = "white";
@@ -219,7 +219,7 @@ window.requestAnimationFrame(animate);
 
     // print high score at end of game
         ctx.fillText("High Score", 0.5 * canvas_width, 125);
-        ctx.fillText(getData(score), 0.5 * canvas_width, 200);
+        ctx.fillText(score, 0.5 * canvas_width, 200);
       }
     }
 
