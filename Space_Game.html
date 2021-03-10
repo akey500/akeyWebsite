@@ -137,8 +137,31 @@ function sendData(username, score){
 
 
 
-isdead = false;
+function getData(){
+  xhttp = new XMLHttpRequest();
+  let url = "getData.php";
 
+  console.log(url);
+
+  //NEW
+  xhttp.onreadystatechange = function() {
+      if (xhttp.readyState == XMLHttpRequest.DONE) {
+          console.log(xhttp.responseText);
+          let data = JSON.parse(xhttp.responseText);
+          let outDiv = document.getElementById("returnData");
+          outDiv.innerHTML = data["username"] + " | " + data["score"];
+      }
+  }
+  //END NEW
+
+  xhttp.open("GET", url, true);
+  xhttp.send();
+
+}
+
+
+
+isdead = false;
 
 
 //call animate function
@@ -180,7 +203,9 @@ window.requestAnimationFrame(animate);
         window.requestAnimationFrame(animate);
       }
       else {
-        sendData(username, score);
+        if getData(score) < score;
+          sendData(username, score);
+
 
         img= new Image();
         img.src= "explosion.gif";
@@ -192,7 +217,7 @@ window.requestAnimationFrame(animate);
 
     // print high score at end of game
         ctx.fillText("High Score", 0.5 * canvas_width, 125);
-        ctx.fillText(score, 0.5 * canvas_width, 200);
+        ctx.fillText(getData(score), 0.5 * canvas_width, 200);
       }
     }
 
