@@ -150,7 +150,7 @@ function getData(username, score){
           console.log(xhttp.responseText);
           let data = JSON.parse(xhttp.responseText);
 
-          ctx.fillText(score, 0.5 * canvas_width, 392.5);
+          //ctx.fillText(score, 0.5 * canvas_width, 392.5);
           let outDiv = document.getElementById("returnData");
           outDiv.innerHTML = data["username"] + " | " + data["score"];
       }
@@ -207,7 +207,7 @@ window.requestAnimationFrame(animate);
         window.requestAnimationFrame(animate);
       }
       else {
-        getData(username, score);
+        sendData(username, score);
 
         img= new Image();
         img.src= "explosion.gif";
