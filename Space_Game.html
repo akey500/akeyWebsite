@@ -20,9 +20,12 @@
   <body>
     <div id="canvasSpot"></div>
 
+
+
   </body>
 
   <script type="text/javascript">
+
 
     //canvas_width = 1430;
     //canvas_height = 785;
@@ -148,6 +151,8 @@ function getData(){
       if (xhttp.readyState == XMLHttpRequest.DONE) {
           console.log(xhttp.responseText);
           let data = JSON.parse(xhttp.responseText);
+          
+          ctx.fillText("you died.", 0.5 * canvas_width, 392.5);
           let outDiv = document.getElementById("returnData");
           outDiv.innerHTML = data["username"] + " | " + data["score"];
       }
@@ -158,6 +163,7 @@ function getData(){
   xhttp.send();
 
 }
+
 
 
 
@@ -203,12 +209,10 @@ window.requestAnimationFrame(animate);
         window.requestAnimationFrame(animate);
       }
       else {
-        if getData(score) < score;
+        if (getData(score) < score){
           sendData(username, score);
+        }
 
-
-        img= new Image();
-        img.src= "explosion.gif";
 
         ctx.font = "55px Courier New";
         ctx.fillStyle = "white";
