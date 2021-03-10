@@ -98,6 +98,7 @@ setInterval(addAsteroid, 1500);
 setInterval(addAsteroid, 1600);
 setInterval(addAsteroid, 1700);
 setInterval(addAsteroid, 1800);
+setInterval(addAsteroid, 1900);
 
 
 // find distance between rocket and asteroids
@@ -108,7 +109,7 @@ setInterval(addAsteroid, 1800);
  }
 
 function dead(x1, y1){
-    if (distance(x1, y1) <= 27){
+    if (distance(x1, y1) <= 30){
       isdead = true;
     }
     return distance (x1, y1);
@@ -150,11 +151,14 @@ window.requestAnimationFrame(animate);
 
       document.addEventListener('keydown', moveBox);
 
+//speeding up the asteroids
       if (asteroids.length>100) {
-      speed = 10 + .1*(asteroids.length-100);
+      speed = 10 + .04*(asteroids.length-100);
     }
 
-        ctx.fillText(speed, 0.5 * canvas_width, 75);
+
+// print speed
+        //ctx.fillText(speed, 0.5 * canvas_width, 75);
 
       for (let i=0; i<asteroids.length; i++){
         asteroids[i].move(speed);
@@ -166,12 +170,7 @@ window.requestAnimationFrame(animate);
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
         ctx.fillText(score, 0.95 * canvas_width, 75);
-
-        ctx.fillText(username, 0.1 * canvas_width, 75);
-
-
-
-
+        ctx.fillText(username, 0.05 * canvas_width, 75);
 
 
       ctx.drawImage(img, x2, y2, 75, 55);
@@ -183,10 +182,17 @@ window.requestAnimationFrame(animate);
       else {
         sendData(username, score);
 
-        ctx.font = "70px Courier New";
+        img= new Image();
+        img.src= "explosion.gif";
+
+        ctx.font = "55px Courier New";
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
         ctx.fillText("you died.", 0.5 * canvas_width, 392.5);
+
+    // print high score at end of game
+        ctx.fillText("High Score", 0.5 * canvas_width, 125);
+        ctx.fillText(score, 0.5 * canvas_width, 200);
       }
     }
 
