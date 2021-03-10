@@ -26,9 +26,7 @@
 
   <script type="text/javascript">
 
-
-    //canvas_width = 1430;
-    //canvas_height = 785;
+score = 0;
 
   canvas_width = window.innerWidth;
  canvas_height = window.innerHeight;
@@ -140,7 +138,7 @@ function sendData(username, score){
 
 
 
-function getData(){
+function getData(username, score){
   xhttp = new XMLHttpRequest();
   let url = "getData.php";
 
@@ -152,7 +150,7 @@ function getData(){
           console.log(xhttp.responseText);
           let data = JSON.parse(xhttp.responseText);
 
-          ctx.fillText("you died.", 0.5 * canvas_width, 392.5);
+          ctx.fillText(score, 0.5 * canvas_width, 392.5);
           let outDiv = document.getElementById("returnData");
           outDiv.innerHTML = data["username"] + " | " + data["score"];
       }
@@ -209,7 +207,8 @@ window.requestAnimationFrame(animate);
         window.requestAnimationFrame(animate);
       }
       else {
-          sendData(username, score);
+          getData(username, score);
+
 
 
 
