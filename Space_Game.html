@@ -151,7 +151,7 @@ function getData(){
       if (xhttp.readyState == XMLHttpRequest.DONE) {
           console.log(xhttp.responseText);
           let data = JSON.parse(xhttp.responseText);
-          
+
           ctx.fillText("you died.", 0.5 * canvas_width, 392.5);
           let outDiv = document.getElementById("returnData");
           outDiv.innerHTML = data["username"] + " | " + data["score"];
@@ -209,9 +209,8 @@ window.requestAnimationFrame(animate);
         window.requestAnimationFrame(animate);
       }
       else {
-        if (getData(score) < score){
           sendData(username, score);
-        }
+
 
 
         ctx.font = "55px Courier New";
