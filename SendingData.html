@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+    Send and save Data
+    <input type="text" id="info" onChange="sendData()">
+    </input>
+
+    <p>
+    <input type="button" id="getData" value="Get Data" onClick="getData()">
+    <div id="returnData"></div>
+
+  </body>
+
+  <script type="text/javascript">
+
+    function sendData(){
+      xhttp = new XMLHttpRequest();
+      let txt = document.getElementById("info").value;
+      let url = "saveData.php?text="+txt;
+
+      console.log(url);
+
+      //NEW
+      xhttp.onreadystatechange = function() {
+          if (xhttp.readyState == XMLHttpRequest.DONE) {
+              console.log(xhttp.responseText);
+          }
+      }
+      //END NEW
+
+      xhttp.open("GET", url, true);
+      xhttp.send();
+
+    }
+
+    function getData(){
+      xhttp = new XMLHttpRequest();
+      let url = "getData.php";
+
+      console.log(url);
+
+      //NEW
+      xhttp.onreadystatechange = function() {
+          if (xhttp.readyState == XMLHttpRequest.DONE) {
+              console.log(xhttp.responseText);
+              let data = JSON.parse(xhttp.responseText);
+              let outDiv = document.getElementById("returnData");
+              outDiv.innerHTML = data["user"] + " | " + data["text"];
+          }
+      }
+      //END NEW
+
+      xhttp.open("GET", url, true);
+      xhttp.send();
+
+    }
+
+  </script>
+
+</html>
